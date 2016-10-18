@@ -17,10 +17,8 @@ try:
 		x2 = lineArr[x+2]
 		try:
 			corpus[(x0,x1)].append(x2)
-			print('reached')
 		except KeyError:
 			corpus[(x0,x1)] = [x2]
-	print(corpus)
 	gen = mark.Chain(corpus, list(corpus.keys())[0])
 	for x in range(0, 30):
 		print(gen.next(), end=' ')
