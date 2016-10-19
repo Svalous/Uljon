@@ -38,6 +38,6 @@ def authorized():
 	return render_template('authorize_callback.html', files=files)
 
 if __name__ == '__main__':
-    r = praw.Reddit('Random sentence generator by u/Uljon ver 0.1')
+	r = praw.Reddit('Random sentence generator by u/Uljon ver 0.1')
 	r.set_oauth_app_info(s.CLIENT_ID, s.CLIENT_SECRET, s.REDIRECT_URI)
 	app.run(debug=True, port=65010)
