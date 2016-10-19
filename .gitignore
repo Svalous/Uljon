@@ -1,3 +1,4 @@
 UljonEnv
 *.swp
 __pycache__
+secrets.py

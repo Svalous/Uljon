@@ -1,12 +1,6 @@
 {% extends "layout.html" %}
-{% block body%}
-<form method="POST" action="/generate">
-<select name="file">
-	{% for file in files %}
-		<option value='{{ file }}'>{{ file }}</option>
-	{% endfor %}
-</select>
-Length n in words of random sentence:
-<input type='text' name='length'>
-<input type='submit' value='Generate!'>
+{% block body %}
+<h3>Authorize the application</h3>
+<a href={{ no_refresh }}>No Refresh</a>
+<a href={{ refresh }}>Refresh</a>
 {% endblock %}
