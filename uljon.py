@@ -15,9 +15,8 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-	link_no_refresh = r.get_authorize_url('UniqueKey')
-	link_refresh = r.get_authorize_url('DifferentUniqueKey', refreshable=True)
-	return render_template('index.html', no_refresh = link_no_refresh, refresh = link_refresh) 
+	link_refresh = r.get_authorize_url('KeepThePartyAlive', refreshable=True)
+	return render_template('index.html', refresh = link_refresh) 
 
 @app.route('/generate', methods=['POST'])
 def generate():
@@ -26,14 +25,16 @@ def generate():
 	gen = Gen.Generator(myfile)
 	sentence = gen.makeSentence(int(request.form['length']))
 	print(sentence)
-	return redirect('/authorize_callback', 302)
+	return redirect(request.referrer, 302)
 
 @app.route('/authorize_callback')
 def authorized():
 	mypath = dirname(abspath(__file__)) + "/txt/"
 	files = [f for f in listdir(mypath) if isfile(join(mypath, f))]
 	state = request.args.get('state', '')
+	print(state)
 	code = request.args.get('code', '')
+	print(code)
 	info = r.get_access_information(code)
 	return render_template('authorize_callback.html', files=files)
 
