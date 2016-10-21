@@ -18,25 +18,21 @@ def index():
 	link_refresh = r.get_authorize_url('KeepThePartyAlive', refreshable=True)
 	return render_template('index.html', refresh = link_refresh) 
 
-@app.route('/generate', methods=['POST'])
-def generate():
-	# Need error handling for unexpected inputs
-	myfile = dirname(abspath(__file__)) + "/txt/" + request.form['file']
-	gen = Gen.Generator(myfile)
-	sentence = gen.makeSentence(int(request.form['length']))
-	print(sentence)
-	return redirect(request.referrer, 302)
-
-@app.route('/authorize_callback')
+@app.route('/authorize_callback', methods=['GET', 'POST'])
 def authorized():
 	mypath = dirname(abspath(__file__)) + "/txt/"
 	files = [f for f in listdir(mypath) if isfile(join(mypath, f))]
-	state = request.args.get('state', '')
-	print(state)
-	code = request.args.get('code', '')
-	print(code)
-	info = r.get_access_information(code)
-	return render_template('authorize_callback.html', files=files)
+	if request.method == 'GET':
+		state = request.args.get('state', '')
+		code = request.args.get('code', '')
+		access_information= r.get_access_information(code)
+		return render_template('authorize_callback.html', files=files)
+	elif request.method == 'POST':
+		myfile = dirname(abspath(__file__)) + "/txt/" + request.form['file']
+		gen = Gen.Generator(myfile)
+		sentence = gen.makeSentence(int(request.form['length']))
+		print(sentence)
+		return render_template('authorize_callback.html', files=files)
 
 if __name__ == '__main__':
 	r = praw.Reddit('Random sentence generator by u/Uljon ver 0.1')
