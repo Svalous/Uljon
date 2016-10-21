@@ -15,7 +15,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-	link_refresh = r.get_authorize_url('KeepThePartyAlive', refreshable=True)
+	link_refresh = r.get_authorize_url('KeepThePartyAlive', 'submit', refreshable=True)
 	return render_template('index.html', refresh = link_refresh) 
 
 @app.route('/authorize_callback', methods=['GET', 'POST'])
@@ -31,7 +31,9 @@ def authorized():
 		myfile = dirname(abspath(__file__)) + "/txt/" + request.form['file']
 		gen = Gen.Generator(myfile)
 		sentence = gen.makeSentence(int(request.form['length']))
-		print(sentence)
+		# Post to reddit
+		# TODO: Error Checking if sentence > 300 characters, put sentence in arg text=sentence
+		r.submit('uljon', '[{0}] '.format(request.form['file']) + sentence, text='')
 		return render_template('authorize_callback.html', files=files)
 
 if __name__ == '__main__':
