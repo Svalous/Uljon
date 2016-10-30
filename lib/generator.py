@@ -23,8 +23,17 @@ class Generator():
 				except KeyError:
 					corpus[(x0,x1)] = [x2]
 			gen = mark.Chain(corpus, list(corpus.keys())[0])
-			for x in range(0, n):
+			# Below should go to n - (avg time to .) or something more optimal
+			# Perhaps look down the line one iteration to ensure that the sentence ends on time
+			for x in range(0, n-1):
 				self.sentence += gen.next() + ' '
+			check = 0
+			while check < 10:
+				self.sentence += gen.nextEnd()
+				if self.sentence.find('.'):
+					check = 10
+				else:
+					self.sentence += ' '
 		except Exception:
 			raise
 		finally:

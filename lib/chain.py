@@ -21,3 +21,14 @@ class Chain():
 				if check == 10:
 					futile = True
 					return ''
+	def nextEnd(self):
+		ends = []
+		for x in self.corpus[current]:
+			if x.find('.'):
+				ends.append(x)
+			else:
+				return self.next()
+		current = self.index
+		rand = random.randint(0, len(ends)-1)
+		self.index = (current[1], ends[rand])
+		return ends[rand]
