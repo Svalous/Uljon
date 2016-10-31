@@ -4,16 +4,26 @@ class Chain():
 	def __init__(self, corpus, index):
 		self.corpus = corpus	
 		self.index = index
-	def next(self):
+	def next(self):	
+		# Filter out sentence ends unless it's the only option
+		conts = []
+		for x in self.corpus[self.index]:
+			if x.find('.') > -1:
+				pass
+			else:
+				conts.append(x)
+		if len(conts) == 0:
+			conts = self.corpus[self.index]
+		# Temporary structure for MVP...should end sentence if it reaches a KeyError
+		# TODO: Make this less ugly!!! IT IS GROSS!!!!!
 		futile = False
 		check = 0
-		# Temporary structure for MVP...should end sentence if it reaches a KeyError
 		while not futile:
 			try:
 				current = self.index
-				rand = random.randint(0, len(self.corpus[current])-1)
-				self.index = (current[1], self.corpus[current][rand])
-				return self.corpus[current][rand]
+				rand = random.randint(0, len(conts)-1)
+				self.index = (current[1], conts[rand])
+				return conts[rand]
 			except KeyError:
 				pass
 			finally:
@@ -21,15 +31,13 @@ class Chain():
 				if check == 10:
 					futile = True
 					return ''
-	# TODO: Fix this?
 	def end(self):
 		ends = []
 		for x in self.corpus[self.index]:
 			if x.find('.') > -1:
 				ends.append(x)	
 		if len(ends) == 0:
-			ends = self.corpus[current]
-		print('reached nextEnd')
+			ends = self.corpus[self.index]
 		current = self.index
 		rand = random.randint(0, len(ends)-1)
 		self.index = (current[1], ends[rand])
