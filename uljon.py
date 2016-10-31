@@ -30,6 +30,7 @@ def authorized():
 	elif request.method == 'POST':
 		myfile = dirname(abspath(__file__)) + "/txt/" + request.form['file']
 		gen = Gen.Generator(myfile)
+		gen.makeChain()
 		sentence = gen.makeSentence(int(request.form['length']))
 		# Post to reddit
 		# TODO: Error Checking if sentence > 300 characters, put sentence in arg text=sentence

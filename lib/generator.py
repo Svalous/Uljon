@@ -1,15 +1,13 @@
 import os
 import re
 import chain as mark
-# Error checking
-import sys
 
 class Generator():
 	def __init__(self, file):
 		self.file = file 
 		self.sentence = ''
 		self.chain = None
-	def makeGen(self):
+	def makeChain(self):
 		try:
 			f = open(self.file, 'r')
 			lines = f.read()
@@ -30,7 +28,6 @@ class Generator():
 			raise
 		finally:
 			f.close()
-			return self.sentence
 	def makeSentence(self, minLength):
 		# TODO: Below should go to n - (avg time to .) or something more optimal
 		# Perhaps look down the line one iteration to ensure that the sentence ends on time
@@ -49,3 +46,4 @@ class Generator():
 			check += 1
 			if check >= MAX_CHECK:
 				futile = True		
+		return self.sentence
