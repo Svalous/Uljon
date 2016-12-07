@@ -13,6 +13,7 @@ class Chain():
 			else:
 				conts.append(x)
 		if len(conts) == 0:
+			print('conts ended up empty...sadface')
 			conts = self.corpus[self.index]
 		# Temporary structure for MVP...should end sentence if it reaches a KeyError
 		# TODO: Make this less ugly!!! IT IS GROSS!!!!!
